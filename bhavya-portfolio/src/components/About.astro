@@ -1,0 +1,78 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const skills = [
+  { category: 'AI / ML', items: ['PyTorch', 'Hugging Face', 'LangChain', 'LangGraph', 'RAG Pipelines'] },
+  { category: 'Languages', items: ['Python', 'MATLAB', 'SQL', 'Bash'] },
+  { category: 'Tools & Infra', items: ['Docker', 'Git', 'Streamlit', 'FastAPI', 'Jupyter'] },
+  { category: 'LLM Platforms', items: ['Ollama', 'OpenAI API', 'Gemini', 'Hugging Face Hub'] },
+];
+---
+
+<section id="about" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-100 dark:border-zinc-800">
+  <h2 class="section-heading">About</h2>
+  <p class="section-subheading">Background, education, and skills.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+    <!-- Left: Photo + Bio -->
+    <div>
+      <!-- Profile photo -->
+      <div class="mb-6">
+        <img
+          src={`${base}profile.jpg`}
+          alt="Bhavya Rajiv Jhaveri"
+          width="120"
+          height="120"
+          class="rounded-2xl object-cover w-28 h-28 ring-2 ring-zinc-200 dark:ring-zinc-700"
+          onerror="this.style.display='none'"
+        />
+      </div>
+
+      <!-- Bio -->
+      <div class="space-y-4 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+        <p>
+          I'm a Masters student in <strong class="text-zinc-900 dark:text-zinc-100">Applied Artificial Intelligence &amp; Robotics</strong> at
+          Hochschule Hof University of Applied Sciences, Germany.
+        </p>
+        <p>
+          My work sits at the intersection of generative AI, autonomous agents, and industrial applications.
+          I'm particularly interested in LLM-driven pipelines, multi-agent orchestration, and bringing
+          AI to predictive maintenance and condition monitoring.
+        </p>
+        <p>
+          Before my Masters, I worked on control system simulations using MATLAB Simulink during an industrial internship.
+        </p>
+      </div>
+
+      <!-- Education -->
+      <div class="mt-8">
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-3">Education</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></div>
+            <div>
+              <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100">M.Sc. Applied AI &amp; Robotics</p>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400">Hochschule Hof · Germany · 2024–present</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Skills -->
+    <div class="space-y-6">
+      {skills.map((group) => (
+        <div>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+            {group.category}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {group.items.map((skill) => (
+              <span class="tag">{skill}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

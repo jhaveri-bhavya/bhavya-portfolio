@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-200;
+  }
+
+  ::selection {
+    @apply bg-indigo-200 dark:bg-indigo-800;
+  }
+}
+
+@layer components {
+  .section-heading {
+    @apply text-3xl font-semibold tracking-tight mb-2;
+  }
+
+  .section-subheading {
+    @apply text-zinc-500 dark:text-zinc-400 mb-10;
+  }
+
+  .tag {
+    @apply inline-block text-xs font-medium px-2.5 py-1 rounded-full
+           bg-zinc-100 dark:bg-zinc-800
+           text-zinc-600 dark:text-zinc-300;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+           bg-zinc-900 text-white dark:bg-white dark:text-zinc-900
+           hover:opacity-80 transition-opacity;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+           border border-zinc-200 dark:border-zinc-700
+           hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors;
+  }
+}
