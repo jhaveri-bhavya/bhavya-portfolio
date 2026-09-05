@@ -1,0 +1,47 @@
+---
+const experience = [
+  {
+    company: 'eMoveUs',
+    role: 'AI / ML Engineer',
+    points: [
+      'Contributed to an enterprise RAG system; handled document preprocessing and chunking with Docling (hybrid and hierarchical chunking) as well as LangChain text splitters; built retrieval strategies with the LangChain Ensemble Retriever (hybrid search) over Milvus and FAISS as vector databases.',
+      'Developed programs with a focus on object-oriented programming (OOP) and modern software design patterns.',
+      'Implemented and integrated APIs, set up MCP servers for system communication, and researched LiteLLM as an LLM gateway/proxy solution.',
+      'Built and deployed monitoring for LLM workflows with MLflow to track experiments and model versions in production.',
+    ],
+  },
+  {
+    company: 'Dassault Systèmes',
+    role: 'Technical Support Engineer',
+    points: [
+      'Provided technical support for the 3DEXPERIENCE cloud platform to 100+ global customers and partners on issues involving IT networks, VPN, and cloud migrations; developed solutions to increase value and customer satisfaction.',
+      'Performed basic data analysis with Excel and Python to identify and better understand recurring customer questions.',
+      'Supported bug tracking to detect defects, improve the UI, and simplify customer processes.',
+    ],
+  },
+];
+---
+
+<section id="experience" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-100 dark:border-zinc-800">
+  <h2 class="section-heading">Experience</h2>
+  <p class="section-subheading">Where I've worked and what I built there.</p>
+
+  <div class="space-y-12">
+    {experience.map((job) => (
+      <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8">
+        <div>
+          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100">{job.company}</h3>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400">{job.role}</p>
+        </div>
+        <ul class="space-y-3 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {job.points.map((point) => (
+            <li class="flex gap-3">
+              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
