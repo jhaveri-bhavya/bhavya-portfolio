@@ -1,3 +1,40 @@
+# Build output
+dist/
+.output/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Astro
+.astro/
+
+# Tooling
+.claude/
+
 # Unrelated local projects / scratch
 rag_pipeline/
 rag_visualizer/
@@ -8,9 +45,3 @@ Ollama_API_key-2.txt
 
 # Personal notes
 git_quick_reference.txt
-
-# Editor
-.vscode/
-
-# Tooling
-.claude/
