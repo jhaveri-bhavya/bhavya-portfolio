@@ -1,2 +1,16 @@
+# Unrelated local projects / scratch
+rag_pipeline/
+rag_visualizer/
+python_test/
 
+# Secrets
+Ollama_API_key-2.txt
+
+# Personal notes
+git_quick_reference.txt
+
+# Editor
+.vscode/
+
+# Tooling
 .claude/
