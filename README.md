@@ -5,11 +5,6 @@
 This repository contains the source for my personal portfolio website. It's a small,
 static site covering my background, experience, education, and writing.
 
-I'm Bhavya Jhaveri, an AI / ML engineer and M.Sc. Applied Artificial Intelligence &
-Robotics student at Hochschule Hof, Germany. My work centres on LLM-driven pipelines,
-retrieval-augmented generation, multi-agent systems, and applying AI to predictive
-maintenance and condition monitoring.
-
 ## Live site
 
 You can view the website here: **https://jhaveri-bhavya.github.io/bhavya-portfolio/**
