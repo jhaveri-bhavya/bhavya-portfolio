@@ -22,7 +22,7 @@ const experience = [
 ];
 ---
 
-<section id="experience" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-100 dark:border-zinc-800">
+<section id="experience" class="max-w-5xl mx-auto px-6 py-12 border-t border-zinc-100 dark:border-zinc-800">
   <h2 class="section-heading">Experience</h2>
   <p class="section-subheading">Where I've worked and what I built there.</p>
 
@@ -31,9 +31,9 @@ const experience = [
       <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8">
         <div>
           <h3 class="font-semibold text-zinc-900 dark:text-zinc-100">{job.company}</h3>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400">{job.role}</p>
+          <p class="text-base text-zinc-500 dark:text-zinc-400">{job.role}</p>
         </div>
-        <ul class="space-y-3 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        <ul class="space-y-3 text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {job.points.map((point) => (
             <li class="flex gap-3">
               <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>

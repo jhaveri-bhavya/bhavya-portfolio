@@ -14,7 +14,7 @@ The homepage (`src/pages/index.astro`) is assembled from small component files i
 | Education                          | `src/components/Education.astro`      |
 | Skills                             | `src/components/Skills.astro`         |
 | Blog list                          | `src/components/Blog.astro`           |
-| Contact form + social links        | `src/components/Contact.astro`        |
+| Contact (GitHub/LinkedIn buttons)  | `src/components/Contact.astro`        |
 | Top navigation bar                 | `src/components/Navbar.astro`         |
 | Footer                             | `src/components/Footer.astro`         |
 
