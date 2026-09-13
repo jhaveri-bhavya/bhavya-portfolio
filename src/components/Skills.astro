@@ -1,0 +1,28 @@
+---
+const skills = [
+  { category: 'AI / ML', items: ['PyTorch', 'Hugging Face', 'LangChain', 'LangGraph', 'RAG Pipelines'] },
+  { category: 'Languages', items: ['Python', 'MATLAB', 'SQL', 'Bash'] },
+  { category: 'Tools & Infra', items: ['Docker', 'Git', 'Streamlit', 'FastAPI', 'Jupyter'] },
+  { category: 'LLM Platforms', items: ['Ollama', 'OpenAI API', 'Gemini', 'Hugging Face Hub'] },
+];
+---
+
+<section id="skills" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-100 dark:border-zinc-800">
+  <h2 class="section-heading">Skills</h2>
+  <p class="section-subheading">Technologies and tools I work with.</p>
+
+  <div class="space-y-6">
+    {skills.map((group) => (
+      <div>
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+          {group.category}
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          {group.items.map((skill) => (
+            <span class="tag">{skill}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
