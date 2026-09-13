@@ -24,7 +24,20 @@ npm run build    # build the static site to dist/
 npm run preview  # preview the production build
 ```
 
+Or with Docker (no local Node install needed):
+
+```bash
+docker compose up --build
+```
+Then open http://localhost:8080/bhavya-portfolio/
+
 ## Deployment
 
 Every push to `main` triggers the workflow in `.github/workflows/deploy.yml`, which
 builds the site and publishes `dist/` to GitHub Pages.
+
+## Editing content
+
+New to the codebase, or just want to change some text/dates without digging through
+files? See **[EDITING.md](EDITING.md)** — it maps each section of the site to its file
+and walks through the full edit → check → commit → publish workflow.
