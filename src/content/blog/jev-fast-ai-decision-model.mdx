@@ -4,6 +4,9 @@ description: "Jev makes AI decisions 40–200x faster than a large language mode
 date: 2026-10-03
 ---
 
+import Tabs from '../../components/Tabs.astro';
+import TabPanel from '../../components/TabPanel.astro';
+
 ## TL;DR
 
 - **Jev** is a non-autoregressive classifier that picks an answer from options you provide and returns a confidence score. It does not generate text.
@@ -39,7 +42,51 @@ A large language model can do all of these, but it is slow and expensive for the
 
 ## Where Can You Use Jev?
 
-Jev works best when it makes the decisions and an LLM handles the generation.
+Jev works best when it makes the decisions and an LLM handles the generation. Here is the shape of a decision call: some text, a question, and a fixed set of options in; one choice with probabilities out.
+
+<Tabs labels={["Ticket triage", "Model routing", "Content moderation"]} ariaLabel="Jev decision examples">
+<TabPanel>
+
+- **Input:** "Our checkout has returned 500 errors since 9am."
+- **Question:** Which team should handle this ticket?
+
+```json
+{
+  "choice": "bug",
+  "probabilities": { "billing": 0.02, "bug": 0.96, "account": 0.02 }
+}
+```
+
+</TabPanel>
+<TabPanel>
+
+- **Input:** "Design a sharded database schema for a payments ledger."
+- **Question:** Should a small or a large model answer this prompt?
+
+```json
+{
+  "choice": "large_model",
+  "probabilities": { "small_model": 0.15, "large_model": 0.85 }
+}
+```
+
+</TabPanel>
+<TabPanel>
+
+- **Input:** "Click this link to claim your free prize, just enter your card number."
+- **Question:** Is this message safe to publish?
+
+```json
+{
+  "choice": "unsafe",
+  "probabilities": { "safe": 0.03, "unsafe": 0.97 }
+}
+```
+
+</TabPanel>
+</Tabs>
+
+*Illustrative example: the format and numbers show the idea, not Jev's exact API output.*
 
 **AI agents and LLM "harness" engineering**
 - Which tool to call, and which model to use
