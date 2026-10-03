@@ -1,0 +1,76 @@
+---
+// Tabbed panels for MDX blog posts. Wrap one <TabPanel> per label:
+//
+//   <Tabs labels={["First", "Second"]}>
+//     <TabPanel>...</TabPanel>
+//     <TabPanel>...</TabPanel>
+//   </Tabs>
+interface Props {
+  labels: string[];
+  ariaLabel?: string;
+}
+
+const { labels, ariaLabel = 'Examples' } = Astro.props;
+---
+
+<div class="tabs my-8" data-tabs>
+  <div
+    role="tablist"
+    aria-label={ariaLabel}
+    class="not-prose flex w-fit max-w-full gap-1 p-1 mb-4 overflow-x-auto rounded-full bg-zinc-100 dark:bg-zinc-800"
+  >
+    {labels.map((label, i) => (
+      <button
+        type="button"
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        class="shrink-0 px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors
+               text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white
+               aria-selected:bg-white aria-selected:text-zinc-900 aria-selected:shadow-sm
+               dark:aria-selected:bg-zinc-950 dark:aria-selected:text-white
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+  <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 px-5 py-1">
+    <slot />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((box) => {
+    const tabs = [...box.querySelectorAll<HTMLButtonElement>('[role=tab]')];
+    const panels = [...box.querySelectorAll<HTMLElement>('[role=tabpanel]')];
+
+    function select(i: number) {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(j === i));
+        t.tabIndex = j === i ? 0 : -1;
+      });
+      panels.forEach((p, j) => (p.hidden = j !== i));
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const next = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        tabs[next].focus();
+        select(next);
+      });
+    });
+
+    select(0);
+    box.dataset.ready = '';
+  });
+</script>
+
+<style is:global>
+  /* Before the script runs, show only the first panel to avoid a flash */
+  [data-tabs]:not([data-ready]) [role='tabpanel']:not(:first-child) {
+    display: none;
+  }
+</style>
