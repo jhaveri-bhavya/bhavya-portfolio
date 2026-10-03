@@ -11,10 +11,9 @@ import TabPanel from '../../components/TabPanel.astro';
 
 - **Jev** is a non-autoregressive classifier that picks an answer from options you provide and returns a confidence score. It does not generate text.
 - It is roughly **40–200x faster** than a **large language model (LLM)** on classification tasks: about 70–500 ms versus 3 s to 328 s in the numbers I came across.
-- It costs less because it produces **no output tokens**. You only pay for input.
+- It costs less because it produces **no output tokens**.
 - It can't invent an answer outside your options, but it can still pick the wrong one.
 - Best use: the **decision layer** around an LLM (routing, safety checks, tool selection), not text generation.
-- Caveats: closed weights, text only, no explanations, and no independent benchmarks yet.
 
 ## What Is Jev?
 
