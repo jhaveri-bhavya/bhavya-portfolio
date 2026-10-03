@@ -1,0 +1,84 @@
+name: PR checks
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # @astrojs/tailwind@5 predates its astro@6 peer range, so allow the known-good tree
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      # Fails on invalid post frontmatter, broken MDX, or type errors in components
+      - name: Build
+        run: npm run build
+
+      - name: Check every post was built
+        run: |
+          missing=0
+          for f in src/content/blog/*.md src/content/blog/*.mdx; do
+            [ -e "$f" ] || continue
+            slug=$(basename "${f%.*}")
+            if [ ! -f "dist/blog/$slug/index.html" ]; then
+              echo "::error file=$f::Post '$slug' was not built"
+              missing=1
+            fi
+          done
+          exit $missing
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t bhavya-portfolio:ci .
+
+      - name: Validate nginx config
+        run: docker run --rm bhavya-portfolio:ci nginx -t
+
+      # Serve on a non-80 host port, the same as docker-compose, to catch redirects that drop the port
+      - name: Smoke test
+        run: |
+          docker run -d --name site -p 8080:80 bhavya-portfolio:ci
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:8080/bhavya-portfolio/ >/dev/null && break
+            sleep 1
+          done
+
+          curl -sf http://localhost:8080/bhavya-portfolio/ >/dev/null
+          echo "Home page OK"
+
+          location=$(curl -s -o /dev/null -w '%header{location}' http://localhost:8080/)
+          echo "Root redirect: $location"
+          case "$location" in
+            /*) ;;
+            *) echo "::error::Redirect is not relative ($location); the host port would be lost"; exit 1 ;;
+          esac
+
+      - name: Container logs
+        if: failure()
+        run: docker logs site || true
