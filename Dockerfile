@@ -21,7 +21,10 @@ COPY --from=build /app/dist /usr/share/nginx/html/bhavya-portfolio
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
+# Use 127.0.0.1, not localhost: nginx.conf only has `listen 80` (IPv4), while
+# `localhost` resolves to ::1 first inside the container, so the check would
+# fail with "connection refused" even though the site is being served fine.
 HEALTHCHECK --interval=30s --timeout=3s \
-  CMD wget -qO- http://localhost/bhavya-portfolio/ >/dev/null || exit 1
+  CMD wget -qO- http://127.0.0.1/bhavya-portfolio/ >/dev/null || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
