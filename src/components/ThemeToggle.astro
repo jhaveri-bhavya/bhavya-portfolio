@@ -1,9 +1,12 @@
 ---
+import { getLang, t } from '../i18n/utils';
+
+const copy = t(getLang(Astro.currentLocale)).theme;
 ---
 
 <button
   id="theme-toggle"
-  aria-label="Toggle dark/light theme"
+  aria-label={copy.toggle}
   class="p-2 rounded-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
 >
   <!-- Sun icon (shown in dark mode) -->

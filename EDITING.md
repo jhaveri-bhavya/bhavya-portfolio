@@ -2,42 +2,100 @@
 
 A guide for making common changes yourself, without needing help for every small edit.
 
+## The site is bilingual
+
+The site exists in two languages:
+
+- **English** — https://jhaveri-bhavya.github.io/bhavya-portfolio/
+- **German** — https://jhaveri-bhavya.github.io/bhavya-portfolio/de/
+
+The `EN | DE` switch in the top-right corner links between them. Both languages are built
+from the *same* components — only the words differ, and all the words live in one file.
+
 ## Where each section of the page lives
 
-The homepage (`src/pages/index.astro`) is assembled from small component files in
-`src/components/`. Each visible section on the site maps to one file:
+The homepage is assembled from small component files in `src/components/`. Each visible
+section on the site maps to one file for its **layout**, and to one block in
+`src/i18n/ui.ts` for its **text**:
 
-| What you see on the page          | File to edit                          |
-|------------------------------------|----------------------------------------|
-| Top banner (name, photo, bio, GitHub/LinkedIn buttons) | `src/components/Hero.astro` |
-| Experience                         | `src/components/Experience.astro`     |
-| Education                          | `src/components/Education.astro`      |
-| Skills                             | `src/components/Skills.astro`         |
-| Blog list                          | `src/components/Blog.astro`           |
-| Contact (GitHub/LinkedIn buttons)  | `src/components/Contact.astro`        |
-| Top navigation bar                 | `src/components/Navbar.astro`         |
-| Footer                             | `src/components/Footer.astro`         |
+| What you see on the page          | Text lives in (`src/i18n/ui.ts`) | Layout lives in           |
+|------------------------------------|----------------------------------|---------------------------|
+| Top banner (name, photo, bio, buttons) | `hero`                       | `src/components/Hero.astro` |
+| Experience                         | `experience`                     | `src/components/Experience.astro` |
+| Education                          | `education`                      | `src/components/Education.astro` |
+| Skills                             | `skills`                         | `src/components/Skills.astro` |
+| Blog list                          | `blog`                           | `src/components/Blog.astro` |
+| Contact                            | `contact`                        | `src/components/Contact.astro` |
+| Top navigation bar                 | `nav`                            | `src/components/Navbar.astro` |
+| Page title / Google description    | `meta`                           | `src/layouts/Layout.astro` |
+| Footer                             | — (no translatable text)         | `src/components/Footer.astro` |
 
-The order sections appear in on the page, and which ones are shown/hidden, is controlled
-by `src/pages/index.astro`.
+The order sections appear in, and which ones are shown or hidden, is controlled by
+`src/components/Home.astro` — shared by both languages, so you only change it once.
+The two route files (`src/pages/index.astro` and `src/pages/de/index.astro`) just render it.
 
 ## Making a text/content change
 
-Most edits are just changing text inside a file — for example, in `Education.astro` you'll
-find plain HTML-like blocks such as:
+**Almost every text edit happens in one file: `src/i18n/ui.ts`.**
 
-```html
-<p class="text-sm font-medium text-zinc-900 dark:text-zinc-100">M.Sc. Applied AI &amp; Robotics</p>
-<p class="text-xs font-bold text-zinc-900 dark:text-zinc-100">March 2025 – March 2027</p>
+Open it and you'll find two big blocks — `en:` and `de:` — with the same keys in each:
+
+```ts
+contact: {
+  heading: 'Get in touch',
+  sub: 'Open to collaborations, research opportunities, and internships.',
+},
 ```
 
-You can open the file, find the text you want to change, and edit it directly (in VS Code,
-or by asking Claude Code to do it). The `class="..."` attributes control styling — leave
-those alone unless you specifically want to change how something looks.
+Find the text you want to change and edit it between the quotes. **Change it in both the
+`en:` and the `de:` block**, otherwise one language will still show the old wording.
 
-Things like `Experience.astro` and `Skills.astro` keep their content in a small array near
-the top of the file (e.g. a list of jobs, or a list of skill categories) — edit the entries
-in that array rather than the markup below it.
+Longer content is stored as lists — the hero bio is a list of paragraphs, each job has a
+list of bullet points, and education is a list of entries. Add or remove items there rather
+than touching the markup.
+
+### The one rule
+
+`en` and `de` must stay the **same shape**: the same keys, and lists of the same length. If
+English has 4 bio paragraphs, German needs 4 too.
+
+You don't have to remember this — `npm run build` checks it and fails with the exact thing
+that's missing, for example:
+
+```
+[i18n] de: missing translation for "blog.back". Add it to the "de" block in src/i18n/ui.ts.
+```
+
+That's a good thing: it means a half-finished translation can never reach the live site.
+
+### Adding or fixing German text
+
+Just edit the value in the `de:` block and rebuild. A few conventions already used there:
+
+- Technical terms stay in English (*Machine Learning*, *Deep Learning*, *Generative AI*,
+  *RAG*, *Retrieval*), the way German tech job ads write them.
+- Proper nouns are never translated: your name, company names (eMoveUs, Dassault Systèmes),
+  universities, and the skill tags (PyTorch, Docker, FastAPI…).
+- German uses a comma as the decimal separator — `Note 2,3`, not `Grade 2.3`.
+
+### What is *not* in `ui.ts`
+
+- **Blog posts** — these stay in English in `src/content/blog/`. The German blog list says so
+  automatically (`blog.langNote`).
+- **Skill tags** — product names, kept in `src/components/Skills.astro`. Only the four
+  category headings are translated.
+- **Styling** — the `class="..."` attributes in the components. Leave those alone unless you
+  specifically want to change how something looks.
+
+## Adding another language later
+
+1. Add the language code to `i18n.locales` in `astro.config.mjs`.
+2. Copy the whole `en:` block in `src/i18n/ui.ts` to a new block (e.g. `fr:`) and translate it.
+3. Create `src/pages/fr/index.astro` and `src/pages/fr/blog/[...slug].astro` by copying the
+   two files in `src/pages/de/` and fixing the import paths.
+
+The language switch picks new languages up automatically — it is built from the list in
+`ui.ts`, so there is nothing to change in the navbar.
 
 ## Running the site locally to check a change
 
@@ -48,18 +106,18 @@ You don't need to guess whether a change looks right — always check it locally
 npm install
 npm run dev
 ```
-Then open http://localhost:4321/bhavya-portfolio/
+Then open http://localhost:4321/bhavya-portfolio/ (German: http://localhost:4321/bhavya-portfolio/de/)
 
 **Option B — Docker** (matches production more closely, no local Node install needed):
 ```bash
 docker compose up --build
 ```
-Then open http://localhost:8080/bhavya-portfolio/
+Then open http://localhost:8080/bhavya-portfolio/ (German: http://localhost:8080/bhavya-portfolio/de/)
 
 Use `--build` whenever you've made changes, so Docker rebuilds instead of reusing an old
 image. Stop it with `Ctrl+C`, then `docker compose down`.
 
-**Build check** (catches errors before you commit):
+**Build check** (catches errors, including a missing German translation, before you commit):
 ```bash
 npm run build
 ```

@@ -1,0 +1,55 @@
+---
+import { getLang, t, localizedPathname } from '../i18n/utils';
+import { languages, languageNames } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const copy = t(lang).language;
+
+const options = languages.map((code) => ({
+  code,
+  name: languageNames[code],
+  href: localizedPathname(Astro.url.pathname, code),
+  current: code === lang,
+}));
+---
+
+<div
+  class="flex items-center rounded-lg bg-zinc-100 dark:bg-zinc-800 p-0.5 text-xs font-medium"
+  role="group"
+  aria-label={copy.switch}
+  data-lang-switch
+>
+  {options.map((option) =>
+    option.current ? (
+      <span
+        class="px-2 py-1 rounded-md bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white shadow-sm uppercase"
+        aria-current="true"
+        lang={option.code}
+      >
+        {option.code}
+      </span>
+    ) : (
+      <a
+        href={option.href}
+        class="px-2 py-1 rounded-md text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+        hreflang={option.code}
+        lang={option.code}
+        title={option.name}
+      >
+        {option.code}
+      </a>
+    )
+  )}
+</div>
+
+<script>
+  // Keep the reader on the same section when they switch language: the href is
+  // rendered at build time and can't know the hash, so add it on the way out.
+  document.querySelectorAll<HTMLElement>('[data-lang-switch]').forEach((group) => {
+    group.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (location.hash) link.href = link.href.split('#')[0] + location.hash;
+      });
+    });
+  });
+</script>

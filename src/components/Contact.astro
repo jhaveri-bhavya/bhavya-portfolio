@@ -1,11 +1,12 @@
 ---
+import { getLang, t } from '../i18n/utils';
+
+const copy = t(getLang(Astro.currentLocale)).contact;
 ---
 
 <section id="contact" class="max-w-5xl mx-auto px-6 py-12 border-t border-zinc-100 dark:border-zinc-800">
-  <h2 class="section-heading">Get in touch</h2>
-  <p class="section-subheading">
-    Open to collaborations, research opportunities, and internships.
-  </p>
+  <h2 class="section-heading">{copy.heading}</h2>
+  <p class="section-subheading">{copy.sub}</p>
 
   <div class="flex flex-wrap gap-3">
     <a

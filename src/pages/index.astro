@@ -1,26 +1,7 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Hero from '../components/Hero.astro';
-import Experience from '../components/Experience.astro';
-import Education from '../components/Education.astro';
-import Skills from '../components/Skills.astro';
-// import Projects from '../components/Projects.astro'; // hidden for now — revisit later
-import Blog from '../components/Blog.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+// English homepage. The page itself lives in src/components/Home.astro, shared
+// with src/pages/de/index.astro.
+import Home from '../components/Home.astro';
 ---
 
-<Layout>
-  <Navbar />
-  <main>
-    <Hero />
-    <Experience />
-    <Education />
-    <Skills />
-    {/* <Projects /> hidden for now — revisit later */}
-    <Blog />
-    <Contact />
-  </main>
-  <Footer />
-</Layout>
+<Home />
