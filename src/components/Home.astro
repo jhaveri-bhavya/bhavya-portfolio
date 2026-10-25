@@ -1,0 +1,31 @@
+---
+// The homepage, shared by every language. The route files
+// (src/pages/index.astro for English, src/pages/de/index.astro for German)
+// just render this, so section order and which sections are shown stay
+// defined in exactly one place. Each component picks up its own language
+// from Astro.currentLocale.
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import Hero from './Hero.astro';
+import Experience from './Experience.astro';
+import Education from './Education.astro';
+import Skills from './Skills.astro';
+// import Projects from './Projects.astro'; // hidden for now — revisit later
+import Blog from './Blog.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+---
+
+<Layout>
+  <Navbar />
+  <main>
+    <Hero />
+    <Experience />
+    <Education />
+    <Skills />
+    {/* <Projects /> hidden for now — revisit later */}
+    <Blog />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>

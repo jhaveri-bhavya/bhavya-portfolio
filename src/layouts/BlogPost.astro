@@ -1,0 +1,60 @@
+---
+// A single blog post, shared by every language. The post bodies themselves are
+// written in English; what changes per language is the surrounding chrome
+// (navbar, back link, date format).
+import { render } from 'astro:content';
+import Layout from './Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { getLang, t, localeHref, formatDate } from '../i18n/utils';
+
+export interface Props {
+  post: any;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const lang = getLang(Astro.currentLocale);
+const copy = t(lang).blog;
+---
+
+<Layout title={`${post.data.title} — Bhavya Jhaveri`} description={post.data.description}>
+  <Navbar />
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <!-- Back link -->
+    <a
+      href={localeHref('#blog', lang)}
+      class="inline-flex items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white mb-10 transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+      </svg>
+      {copy.back}
+    </a>
+
+    <!-- Post header -->
+    <header class="mb-10">
+      <time class="text-xs text-zinc-400 dark:text-zinc-500 mb-3 block">
+        {formatDate(post.data.date, lang, { month: 'long', day: 'numeric', year: 'numeric' })}
+      </time>
+      <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3">
+        {post.data.title}
+      </h1>
+      {post.data.description && (
+        <p class="text-zinc-500 dark:text-zinc-400 text-base leading-relaxed">{post.data.description}</p>
+      )}
+    </header>
+
+    <!-- Post content -->
+    <article class="prose prose-zinc dark:prose-invert max-w-none
+      prose-headings:font-semibold prose-headings:tracking-tight
+      prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline
+      prose-code:text-zinc-800 dark:prose-code:text-zinc-200
+      prose-code:bg-zinc-100 dark:prose-code:bg-zinc-800
+      prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+      <Content />
+    </article>
+  </main>
+  <Footer />
+</Layout>
