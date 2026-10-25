@@ -31,12 +31,14 @@ const home = localeHref('', lang);
     </a>
 
     <!-- Desktop nav links. Breaks to the mobile menu below md rather than sm,
-         because the German labels plus the language switch need the extra room. -->
-    <div class="hidden md:flex items-center gap-1">
+         because the German labels plus the language switch need the extra room.
+         Spacing is tightened between md and lg so the longer German labels
+         still fit on one line at 768px; lg and up gets the roomier spacing. -->
+    <div class="hidden md:flex items-center gap-0.5 lg:gap-1">
       {navLinks.map((link) => (
         <a
           href={link.href}
-          class="px-3 py-1.5 text-base text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white rounded-md hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+          class="px-2.5 lg:px-3 py-1.5 text-base text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white rounded-md hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
         >
           {link.label}
         </a>
